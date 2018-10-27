@@ -52,6 +52,12 @@ var bot = new TelegramBot(token, {
   polling: true
 });
 
+var languageTranslator = new LanguageTranslatorV3({
+  url: "https://gateway.watsonplatform.net/language-translator/api",
+  iam_apikey: "a36rYJmxdq86Ek-HPj8PXH4t8fVAJy5dBFwmwEBNPQij",
+  version: "2018-05-01"
+});
+
 bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
 
   const chatId = msg.chat.id;
@@ -72,9 +78,7 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
 
       if (res.body.data.results == '') {
         bot.sendMessage(chatId, "No se ha encontrado");
-      }
-
-      else {
+      } else {
         var thumbnail = res.body.data.results[0].thumbnail.path;
         var extension = res.body.data.results[0].thumbnail.extension;
         var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
@@ -87,12 +91,6 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
         if (description == "") {
           description = "Biography not found"
         }
-
-        var languageTranslator = new LanguageTranslatorV3({
-          url: "https://gateway.watsonplatform.net/language-translator/api",
-          iam_apikey: "a36rYJmxdq86Ek-HPj8PXH4t8fVAJy5dBFwmwEBNPQij",
-          version: "2018-05-01"
-        });
 
         var paramsTranslator = {
           text: description,
@@ -141,10 +139,11 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
 
       if (res.body.data.results == '') {
         bot.sendMessage(chatId, "No se ha encontrado");
-      }
-
-      else {
+      } else {
         var charId = res.body.data.results[0].id;
+        var thumbnail = res.body.data.results[0].thumbnail.path;
+        var extension = res.body.data.results[0].thumbnail.extension;
+        var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
         var name = "<strong>" + res.body.data.results[0].name + "</strong>";
         var attribution = '\n' + res.body.attributionText;
 
@@ -161,12 +160,12 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
           "json": true
         }, (err, res, body) => {
           if (!err) {
-            var results = res.body.data.results
+            var results = res.body.data.results;
             var titleList = '';
             results.forEach(function(data) {
-              titleList += "<a href='" + data.urls[0].url + "'>" + data.title + "</a>" + '\n';
+              titleList += data.title + '\n';
             })
-            bot.sendMessage(chatId, "Algunos comics en los que ha participado: " + name + '\n\n' + titleList + attribution, {
+            bot.sendMessage(chatId, thumbnail_parsed + '\n' + "Algunos comics en los que ha participado: " + name + '\n\n' + titleList + attribution, {
               parse_mode: "HTML"
             });
 
@@ -174,7 +173,7 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
             self.callback(err, null);
             return;
           }
-        })  
+        })
       }
 
     } else {
@@ -182,6 +181,80 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
       return;
     }
 
+  })
+
+});
+
+bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const matchString = match[1];
+
+  request({
+    "uri": "https://gateway.marvel.com:443/v1/public/events",
+    "qs": {
+      "apikey": process.env.MARVEL_PUBLIC_KEY,
+      "hash": crypto.createHash('md5').update(parseInt(Date.now() / 1000, 10) + process.env.MARVEL_PRIVATE_KEY + process.env.MARVEL_PUBLIC_KEY).digest('hex'),
+      "ts": parseInt(Date.now() / 1000, 10),
+      "nameStartsWith": matchString
+    },
+    "method": "GET",
+    "json": true
+  }, (err, res, body) => {
+    if (!err) {
+      if (res.body.data.results == '') {
+        bot.sendMessage(chatId, "No se ha encontrado");
+      } else {
+
+        var results = res.body.data.results;
+
+        var thumbnail = results[0].thumbnail.path;
+        var extension = results[0].thumbnail.extension;
+        var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
+
+        var creators = '';
+        results.creators.items.forEach(function(data) {
+          creators += data.name + ', ';
+        })
+
+        var characters = '';
+        results.characters.items.forEach(function(data) {
+          characters += data.name + ', ';
+        })
+
+        var titleList = ''
+        results.comics.items.forEach(function(data) {
+          titleList += data.name + '\n';
+        })
+
+        var description = results[0].description
+
+        if (description == "") {
+          description = "Biography not found"
+        }
+
+        var paramsTranslator = {
+          text: description,
+          model_id: 'en-es'
+        };
+
+        languageTranslator.translate(paramsTranslator, function(err, res) {
+          if (err) {
+            console.log(err);
+          } else {
+            var es_description = res.translations[0].translation;
+
+            bot.sendMessage(chatId, thumbnail_parsed + "<strong>" + results[0].title + "</strong>" + ": " + description + '\n\n' + 'Creadores: ' + creators + '\n' + 'Personajes: ' + characters + '\n' + 'Comics: ' + '\n' + titleList, {
+              parse_mode: "HTML"
+            });
+
+          }
+        });
+
+      }
+    } else {
+      self.callback(err, null);
+      return;
+    }
   })
 
 });
