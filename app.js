@@ -210,19 +210,20 @@ bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
         var thumbnail = results[0].thumbnail.path;
         var extension = results[0].thumbnail.extension;
         var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
+        var attribution = '\n' + res.body.attributionText;
 
         var creators = '';
-        results.creators.items.forEach(function(data) {
+        results[0].creators.items.forEach(function(data) {
           creators += data.name + ', ';
         })
 
         var characters = '';
-        results.characters.items.forEach(function(data) {
+        results[0].characters.items.forEach(function(data) {
           characters += data.name + ', ';
         })
 
         var titleList = ''
-        results.comics.items.forEach(function(data) {
+        results[0].comics.items.forEach(function(data) {
           titleList += data.name + '\n';
         })
 
@@ -243,7 +244,7 @@ bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
           } else {
             var es_description = res.translations[0].translation;
 
-            bot.sendMessage(chatId, thumbnail_parsed + "<strong>" + results[0].title + "</strong>" + ": " + description + '\n\n' + 'Creadores: ' + creators + '\n' + 'Personajes: ' + characters + '\n' + 'Comics: ' + '\n' + titleList, {
+            bot.sendMessage(chatId, thumbnail_parsed + "<strong>" + results[0].title + "</strong>" + ": " + es_description + '\n\n' + '<strong>Creadores:</strong> ' + creators + '\n\n' + '<strong>Personajes:</strong> ' + characters + '\n\n' + '<strong>Comics Pertenecientes a este evento:</strong>' + '\n' + titleList + '\n' + attribution, {
               parse_mode: "HTML"
             });
 
