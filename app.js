@@ -230,7 +230,7 @@ bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
         var description = results[0].description
 
         if (description == "") {
-          description = "Biography not found"
+          description = "Description not found"
         }
 
         var paramsTranslator = {
