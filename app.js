@@ -58,10 +58,24 @@ var languageTranslator = new LanguageTranslatorV3({
   version: "2018-05-01"
 });
 
+bot.onText(/help, (msg) => {
+  const chatId = msg.chat.id;
+  const instruction_1 = "<strong>Instrucciones:</strong>" + '\n' + "/aboutCharacters personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo colocandolo entre parentesis, al igual que el nombre en caso de que el personaje haya sido personificado por varias personas." + '\n' + "Ejemplo: /aboutCharacters Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)";
+  const instruction_2 = '/getComicsWhere personaje: Obten una lista de algunos comics en los que haya participado un personaje.' + '\n' + 'Ejemplo: /getComicsWhere Captain America';
+  const instruction_3 = '/getEventInfo evento: Obten información sobre una historia específica, personajes participantes, creadores y comics en donde se aborte dicha historia.' + '\n' + 'Ejemplo: /getEventInfo civil war';
+
+  bot.sendMessage(chatId, instruction_1,{parse_mode: "HTML"})
+  bot.sendMessage(chatId, instruction_2,{parse_mode: "HTML"})
+  bot.sendMessage(chatId, instruction_3,{parse_mode: "HTML"})
+
+}
+
 bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
 
   const chatId = msg.chat.id;
   const matchString = match[1];
+
+  bot.sendMessage(chatId, 'Buscando...');
 
   request({
     "uri": "http://gateway.marvel.com/v1/public/characters",
@@ -123,6 +137,8 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
 
   const chatId = msg.chat.id;
   const matchString = match[1];
+
+  bot.sendMessage(chatId, 'Buscando...');
 
   request({
     "uri": "http://gateway.marvel.com/v1/public/characters",
@@ -186,8 +202,11 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
 });
 
 bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
+
   const chatId = msg.chat.id;
   const matchString = match[1];
+
+  bot.sendMessage(chatId, 'Buscando...');
 
   request({
     "uri": "https://gateway.marvel.com:443/v1/public/events",
@@ -259,13 +278,5 @@ bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
   })
 
 });
-
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-
-  // send a message to the chat acknowledging receipt of their message
-  bot.sendMessage(chatId, 'Buscando...');
-});
-
 
 module.exports = app;
