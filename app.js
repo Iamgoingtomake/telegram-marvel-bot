@@ -68,7 +68,7 @@ bot.onText(/\/help/, (msg) => {
   bot.sendMessage(chatId, instruction_2,{parse_mode: "HTML"})
   bot.sendMessage(chatId, instruction_3,{parse_mode: "HTML"})
 
-}
+});
 
 bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
 
