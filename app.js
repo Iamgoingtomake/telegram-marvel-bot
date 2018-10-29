@@ -58,6 +58,8 @@ var languageTranslator = new LanguageTranslatorV3({
   version: "2018-05-01"
 });
 
+//pass instructions with /help command
+
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   const instruction_1 = "<strong>Instrucciones:</strong>" + '\n' + "/aboutCharacters personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis." + '\n\n' + "Ejemplo: /aboutCharacters Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)";
@@ -69,6 +71,8 @@ bot.onText(/\/help/, (msg) => {
   bot.sendMessage(chatId, instruction_3,{parse_mode: "HTML"})
 
 });
+
+//get character information (thumbnail, name and description)
 
 bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
 
@@ -111,6 +115,8 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
           model_id: 'en-es'
         };
 
+        //translate text to spanish with Watson language translator API
+
         languageTranslator.translate(paramsTranslator, function(err, res) {
           if (err) {
             console.log(err);
@@ -133,12 +139,16 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
   })
 });
 
+// get comics where a character appear
+
 bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
 
   const chatId = msg.chat.id;
   const matchString = match[1];
 
   bot.sendMessage(chatId, 'Buscando...');
+
+  // get the character ID, name and thumbnail
 
   request({
     "uri": "http://gateway.marvel.com/v1/public/characters",
@@ -162,6 +172,8 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
         var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
         var name = "<strong>" + res.body.data.results[0].name + "</strong>";
         var attribution = '\n' + res.body.attributionText;
+
+        //the comics api needs a ID character to work, Do two nested requests can be slow
 
         request({
           "uri": "https://gateway.marvel.com/v1/public/comics",
@@ -200,6 +212,8 @@ bot.onText(/\/getComicsWhere (.+)/, (msg, match) => {
   })
 
 });
+
+// get events thumbnail, description, creators, characters and comics based in event name
 
 bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
 
@@ -256,6 +270,8 @@ bot.onText(/\/getEventInfo (.+)/, (msg, match) => {
           text: description,
           model_id: 'en-es'
         };
+
+        //description translation
 
         languageTranslator.translate(paramsTranslator, function(err, res) {
           if (err) {
