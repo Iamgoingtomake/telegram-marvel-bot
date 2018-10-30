@@ -84,8 +84,9 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
             });*/
 
             bot.sendPhoto(chatId, thumbnail, {
-              caption: name_parsed + ": " + es_description + attribution
-            }, {parse_mode: "HTML"});
+              caption: name_parsed + ": " + es_description + attribution,
+              parse_mode: "HTML"
+            });
 
           }
         });
