@@ -57,7 +57,7 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
         var extension = res.body.data.results[0].thumbnail.extension;
         var name = res.body.data.results[0].name
 
-        var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
+        //var thumbnail_parsed = "<a href='" + thumbnail + "." + extension + "'>" + thumbnail + "." + extension + "</a>" + '\n';
         var name_parsed = "<strong>" + name + "</strong>";
         var description = res.body.data.results[0].description;
         var attribution = '\n\n' + res.body.attributionText;
@@ -79,9 +79,13 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
           } else {
             var es_description = res.translations[0].translation;
 
-            bot.sendMessage(chatId, thumbnail_parsed + name_parsed + ": " + es_description + attribution, {
+            /*bot.sendMessage(chatId, thumbnail_parsed + name_parsed + ": " + es_description + attribution, {
               parse_mode: "HTML"
-            });
+            });*/
+
+            bot.sendPhoto(msg.chat.id, thumbnail, {
+              caption: name_parsed + es_description + attribution
+            }, {parse_mode: "HTML"});
 
           }
         });
