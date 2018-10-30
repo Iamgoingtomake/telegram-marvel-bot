@@ -83,8 +83,8 @@ bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
               parse_mode: "HTML"
             });*/
 
-            bot.sendPhoto(msg.chat.id, thumbnail, {
-              caption: name_parsed + es_description + attribution
+            bot.sendPhoto(chatId, thumbnail, {
+              caption: name_parsed + ": " + es_description + attribution
             }, {parse_mode: "HTML"});
 
           }
