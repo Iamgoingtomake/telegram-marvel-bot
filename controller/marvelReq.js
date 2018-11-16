@@ -16,6 +16,14 @@ var languageTranslator = new LanguageTranslatorV3({
 
 //pass instructions with /help command
 
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  const instruction = "Escribe /help para tener instrucciones con todo lo que puedes hacer con marvel-bot";
+
+  bot.sendMessage(chatId, instruction,{parse_mode: "HTML"})
+
+});
+
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   const instruction_1 = "<strong>Instrucciones:</strong>" + '\n' + "/aboutCharacters personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis." + '\n\n' + "Ejemplo: /aboutCharacters Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)";
