@@ -26,13 +26,22 @@ bot.onText(/\/start/, (msg) => {
 
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
-  const instruction_1 = "<strong>Instrucciones:</strong>" + '\n' + "/aboutCharacters personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis." + '\n\n' + "Ejemplo: /aboutCharacters Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)";
-  const instruction_2 = '/getComicsWhere personaje: Obten una lista de algunos comics en los que haya participado un personaje, puedes especificar el universo o nombre en parentesis' + '\n\n' + 'Ejemplo: /getComicsWhere Captain America';
-  const instruction_3 = '/getEventInfo evento: Obten información sobre una historia específica, personajes participantes, creadores y comics en donde se aborte dicha historia.' + '\n\n' + 'Ejemplo: /getEventInfo civil war';
+  const instruction = `<strong>Instrucciones:</strong>
 
-  bot.sendMessage(chatId, instruction_1,{parse_mode: "HTML"})
-  bot.sendMessage(chatId, instruction_2,{parse_mode: "HTML"})
-  bot.sendMessage(chatId, instruction_3,{parse_mode: "HTML"})
+  /aboutCharacters personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis.
+
+  <i>Ejemplo: /aboutCharacters Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)</i>
+
+  /getComicsWhere personaje: Obten una lista de algunos comics en los que haya participado un personaje, puedes especificar el universo o nombre en parentesis
+
+  <i>Ejemplo: /getComicsWhere Captain America</i>
+
+  /getEventInfo evento: Obten información sobre una historia específica, personajes participantes, creadores y comics en donde se aborte dicha historia.
+
+  <i>Ejemplo: /getEventInfo civil war</i>`
+  
+
+  bot.sendMessage(chatId, instruction,{parse_mode: "HTML"})
 
 });
 
