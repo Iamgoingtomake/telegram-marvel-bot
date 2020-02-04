@@ -18,7 +18,9 @@ var languageTranslator = new LanguageTranslatorV3({
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  const instruction = "Bot para consultar información relevante sobre Marvel Comics" + "\n\n" + "Escribe /help para tener instrucciones con todo lo que puedes hacer con marvel-bot";
+  const instruction = `Bot para consultar información relevante sobre <strong>Marvel Comics</strong>
+  
+  Escribe /help para tener instrucciones con todo lo que puedes hacer con marvel-bot`;
 
   bot.sendMessage(chatId, instruction,{parse_mode: "HTML"})
 
@@ -28,9 +30,9 @@ bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   const instruction = `<strong>Instrucciones:</strong>
 
-  /aboutCharacters personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis.
+  /aboutCharacter personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis.
 
-  <i>Ejemplo: /aboutCharacters Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)</i>
+  <i>Ejemplo: /aboutCharacter Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)</i>
 
   /getComicsWhere personaje: Obten una lista de algunos comics en los que haya participado un personaje, puedes especificar el universo o nombre en parentesis
 
@@ -47,7 +49,7 @@ bot.onText(/\/help/, (msg) => {
 
 //get character information (thumbnail, name and description)
 
-bot.onText(/\/aboutCharacters (.+)/, (msg, match) => {
+bot.onText(/\/aboutCharacter (.+)/, (msg, match) => {
 
   const chatId = msg.chat.id;
   const matchString = match[1];

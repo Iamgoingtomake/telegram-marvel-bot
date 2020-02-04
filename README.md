@@ -12,9 +12,9 @@ npm install
 ## Use
 
 * /help: command to get the instructions
-* /aboutCharacters character: You can get the biography of a character, you can also specify the universe or name by placing it in parentheses.
+* /aboutCharacter character: You can get the biography of a character, you can also specify the universe or name by placing it in parentheses.
 ```
-Ejemplo: /aboutCharacters Spider-man (Ultimate) or /aboutCharacters Venom (Flash Thompson)
+Ejemplo: /aboutCharacter Spider-man (Ultimate) or /aboutCharacters Venom (Flash Thompson)
 ```
 * /getComicsWhere character: Get a list of some comics in which a character has participated, you can specify the universe or name in parentheses.
 ```
