@@ -32,7 +32,7 @@ bot.onText(/\/help/, (msg) => {
 
   /aboutCharacter personaje: Puedes obtener la biografía de un personaje, también puedes especificar el universo o nombre colocandolo entre parentesis.
 
-  <i>Ejemplo: /aboutCharacter Spider-man (Ultimate) o /aboutCharacters Venom (Flash Thompson)</i>
+  <i>Ejemplo: /aboutCharacter Spider-man (Ultimate) o /aboutCharacter Venom (Flash Thompson)</i>
 
   /getComicsWhere personaje: Obten una lista de algunos comics en los que haya participado un personaje, puedes especificar el universo o nombre en parentesis
 
