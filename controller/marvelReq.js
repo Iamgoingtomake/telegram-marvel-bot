@@ -18,7 +18,7 @@ var languageTranslator = new LanguageTranslatorV3({
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  const instruction = "Escribe /help para tener instrucciones con todo lo que puedes hacer con marvel-bot";
+  const instruction = "Bot para consultar información relevante sobre Marvel Comics" + "\n\n" + "Escribe /help para tener instrucciones con todo lo que puedes hacer con marvel-bot";
 
   bot.sendMessage(chatId, instruction,{parse_mode: "HTML"})
 
