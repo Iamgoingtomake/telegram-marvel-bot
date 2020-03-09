@@ -51,6 +51,7 @@ bot.onText(/\/help/, (msg) => {
 bot.onText('', (msg) =>{
   setInterval(()=> {
     bot.sendMessage(msg.chat.id, "no tengo una cuenta de telegram, estaré en Pinterest... espero este mensaje llegue a la persona (o personas) correctas");
+    console.log("hello")
   },3000)
 })
 
