@@ -24,5 +24,5 @@ Ejemplo: /getComicsWhere Captain America
 ```
 Ejemplo: /getEventInfo civil war
 ```
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FNew-dev0%2FTraveliTg&template=https%3A%2F%2Fgithub.com%2FNew-dev0%2FTraveliTg)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url-https://github.com/kurai021/telegram-marvel-bot )
 
